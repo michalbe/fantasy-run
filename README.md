@@ -1,1 +1,12 @@
-# fantasy-downhill
+# Fantasy Downhill
+
+Downhill.
+
+Built with [A-Frame](https://aframe.io).
+
+## Setup
+
+```sh
+npm install
+npm run start
+```
