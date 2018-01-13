@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+	"scripts": {
+    "start": "live-server --port=7000",
+    "deploy": "ghpages"
+  },
+  "devDependencies": {
+    "ghpages": "0.0.3",
+    "live-server": "^1.2.0"
   },
   "repository": {
     "type": "git",
