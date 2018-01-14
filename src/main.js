@@ -1,5 +1,4 @@
-const elements = [];
-const speed = 0.002;
+const speed = 0.02;
 let scene;
 
 
@@ -17,7 +16,6 @@ AFRAME.registerComponent('move', {
 		this.el.object3D.position.z += speed;
 	}
 });
-
 
 function init() {
 	scene = document.querySelector('#scene1');
