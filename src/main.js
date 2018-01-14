@@ -7,6 +7,7 @@ function add_element() {
 	const el = document.createElement('a-entity');
 	el.setAttribute('collada-model', '#rock1');
 	el.setAttribute('position', '0 .1 -4');
+	el.setAttribute('move', '');
 	window.el = el;
 	scene.appendChild(el);
 }
