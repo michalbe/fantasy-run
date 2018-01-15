@@ -1,4 +1,4 @@
-const speed = 0.00002;
+const speed = 0.02;
 let scene;
 const road_size = 8;
 const max_distance = 30;
@@ -22,6 +22,10 @@ function add_element(isLeft, zPos) {
 
 AFRAME.registerComponent('move', {
 	tick() {
+		const position_modifier = 1 - Math.random()*2;
+		if (this.el.object3D.position.z > max_distance) {
+			this.el.object3D.position.z = -max_distance + position_modifier;
+		}
 		this.el.object3D.position.z += speed;
 	}
 });
