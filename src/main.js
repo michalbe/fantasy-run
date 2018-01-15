@@ -4,12 +4,12 @@ let scene;
 
 function add_element() {
 	const el = document.createElement('a-entity');
-	const scale = Math.random();
+	const scale = 0.4 + Math.random();
 
 	el.setAttribute('collada-model', '#rock1');
 	el.setAttribute('position', '0 .1 -4');
-	el.setAttribute('scale', `${scale} ${Math.random()} ${Math.random()}`);
-	el.setAttribute('rotation', `0 0 ${~~(Math.random()*360)}`);
+	el.setAttribute('scale', `${scale} ${scale} ${scale}`);
+	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
 	el.setAttribute('move', '');
 	window.el = el;
 	scene.appendChild(el);
