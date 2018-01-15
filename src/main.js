@@ -4,7 +4,7 @@ const road_size = 8;
 const max_distance = 30;
 const rocks = 20;
 
-function add_element(isLeft, zPos) {
+function add_rock(isLeft, zPos) {
 	const el = document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
 	const position_modifier = 1 - Math.random()*2;
@@ -34,6 +34,6 @@ function init() {
 	scene = document.querySelector('#scene1');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
-		add_element(Math.random() > 0.5, i * step - max_distance);
+		add_rock(Math.random() > 0.5, i * step - max_distance);
 	}
 }
