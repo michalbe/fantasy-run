@@ -1,4 +1,4 @@
-const speed = 0.0002;
+const speed = 0.00002;
 let scene;
 
 
