@@ -4,13 +4,14 @@ const road_size = 8;
 const max_distance = 30;
 const rocks = 10;
 
-function add_element() {
+function add_element(isLeft, zPos) {
 	const el = document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
 	const position_modifier = 1 - Math.random()*2;
+	const multiplier = isLeft ? -1 : 1;
 
 	el.setAttribute('collada-model', '#rock1');
-	el.setAttribute('position', `-${road_size/2 + position_modifier} 0 -${max_distance}`);
+	el.setAttribute('position', `${(road_size/2 + position_modifier) * multiplier} 0 ${zPos}`);
 	el.setAttribute('scale', `${scale} ${scale} ${scale}`);
 	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
 	el.setAttribute('move', '');
@@ -26,5 +27,8 @@ AFRAME.registerComponent('move', {
 
 function init() {
 	scene = document.querySelector('#scene1');
-	add_element();
+	const step = (max_distance * 2) / rocks;
+	for (let i = 0; i < rocks; i++) {
+		add_element(Math.random() > 0.5, i * step - max_distance);
+	}
 }
