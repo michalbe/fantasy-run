@@ -38,8 +38,6 @@ AFRAME.registerComponent('move-rock', {
 		const position_modifier = 1 - Math.random()*2;
 		if (this.el.object3D.position.z > max_distance) {
 			add_rock(Math.random() > 0.5, - max_distance, this.el);
-			// this.el.object3D.position.z = -max_distance + position_modifier;
-
 		}
 		this.el.object3D.position.z += speed;
 	}
