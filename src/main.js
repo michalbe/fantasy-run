@@ -1,8 +1,9 @@
-const speed = 0.2;
+const speed = 0.5;
 let scene;
 const road_size = 12;
 const max_distance = 50;
 const rocks = 20;
+const grounds = 5;
 
 function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
@@ -17,12 +18,22 @@ function add_rock(isLeft, zPos, element) {
 	window.el = el;
 	if (!element) {
 		el.setAttribute('collada-model', '#rock1');
-		el.setAttribute('move', '');
+		el.setAttribute('move-rock', '');
 		scene.appendChild(el);
 	}
 }
 
-AFRAME.registerComponent('move', {
+function add_ground(zPos) {
+	const el = document.createElement('a-entity');
+
+	el.setAttribute('position', `0 -0.5 ${zPos}`);
+	el.setAttribute('rotation', `0 90 0`);
+	el.setAttribute('collada-model', '#ground');
+	el.setAttribute('move-ground', '');
+	scene.appendChild(el);
+}
+
+AFRAME.registerComponent('move-rock', {
 	tick() {
 		const position_modifier = 1 - Math.random()*2;
 		if (this.el.object3D.position.z > max_distance) {
@@ -34,10 +45,25 @@ AFRAME.registerComponent('move', {
 	}
 });
 
+AFRAME.registerComponent('move-ground', {
+	tick() {
+		if (this.el.object3D.position.z > max_distance) {
+			this.el.object3D.position.z = -max_distance;
+		}
+		this.el.object3D.position.z += speed;
+	}
+});
+
 function init() {
 	scene = document.querySelector('#scene1');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
 	}
+
+	const ground_step = (max_distance * 2) / grounds;
+	for (let i = 0; i < grounds; i++) {
+		add_ground(i * ground_step - max_distance);
+	}
+
 }
