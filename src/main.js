@@ -4,6 +4,10 @@ const road_size = 12;
 const max_distance = 50;
 const rocks = 20;
 const grounds = 5;
+let isUp = 1;
+const change_each = 10;
+let ticks = 0;
+const step_size = 0.1;
 
 function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
@@ -33,6 +37,16 @@ function add_ground(zPos) {
 	scene.appendChild(el);
 }
 
+AFRAME.registerComponent('step-shake', {
+	tick() {
+		ticks++;
+		if (ticks%change_each === 0) {
+			this.el.object3D.position.y += step_size * isUp;
+			isUp *= -1;
+		}
+	}
+});
+
 AFRAME.registerComponent('move-rock', {
 	tick() {
 		const position_modifier = 1 - Math.random()*2;
@@ -47,6 +61,7 @@ AFRAME.registerComponent('move-ground', {
 	tick() {
 		if (this.el.object3D.position.z > max_distance) {
 			this.el.object3D.position.z = -max_distance;
+			this.el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
 		}
 		this.el.object3D.position.z += speed;
 	}
