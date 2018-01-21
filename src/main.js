@@ -1,14 +1,15 @@
 const speed = 0.5;
+const obstacles = 2;
 let scene;
-const road_size = 12;
+const road_size = 18;
 const max_distance = 50;
-const rocks = 20;
-const grounds = 5;
+const rocks = 30;
+const grounds = 4;
 let isUp = 1;
 const change_each = 10;
 let ticks = 0;
 const step_size = 0.1;
-
+let lights;
 function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
@@ -18,10 +19,10 @@ function add_rock(isLeft, zPos, element) {
 	el.setAttribute('position', `${(road_size/2 + position_modifier) * multiplier} 0 ${zPos}`);
 	el.setAttribute('scale', `${scale} ${scale} ${scale}`);
 	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
+	el.setAttribute('collada-model', '#obstacle' + (1 + ~~(Math.random() * obstacles)));
 
 	window.el = el;
 	if (!element) {
-		el.setAttribute('collada-model', '#rock1');
 		el.setAttribute('move-rock', '');
 		scene.appendChild(el);
 	}
@@ -69,6 +70,7 @@ AFRAME.registerComponent('move-ground', {
 
 function init() {
 	scene = document.querySelector('#scene1');
+	light = document.querySelector('#light');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
