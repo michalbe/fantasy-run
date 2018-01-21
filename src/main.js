@@ -4,7 +4,7 @@ const road_size = 12;
 const max_distance = 50;
 const rocks = 20;
 
-function add_element(isLeft, zPos, element) {
+function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
 	const position_modifier = 1 - Math.random()*2;
@@ -26,7 +26,7 @@ AFRAME.registerComponent('move', {
 	tick() {
 		const position_modifier = 1 - Math.random()*2;
 		if (this.el.object3D.position.z > max_distance) {
-			add_element(Math.random() > 0.5, - max_distance, this.el);
+			add_rock(Math.random() > 0.5, - max_distance, this.el);
 			// this.el.object3D.position.z = -max_distance + position_modifier;
 
 		}
@@ -38,6 +38,6 @@ function init() {
 	scene = document.querySelector('#scene1');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
-		add_element(Math.random() > 0.5, i * step - max_distance);
+		add_rock(Math.random() > 0.5, i * step - max_distance);
 	}
 }
