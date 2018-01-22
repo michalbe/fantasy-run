@@ -68,6 +68,19 @@ AFRAME.registerComponent('move-ground', {
 	}
 });
 
+AFRAME.registerComponent("listener", {
+	schema :
+	{
+		stepFactor : {
+			type : "number",
+			default : 0.05
+		}
+	},
+	tick : function() {
+		this.el.components.camera.camera.parent.position.add(this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor));
+	}
+});
+
 function init() {
 	scene = document.querySelector('#scene1');
 	light = document.querySelector('#light');
