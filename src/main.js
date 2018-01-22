@@ -1,10 +1,10 @@
-const speed = 0.5;
+const speed = 0.9;
 const obstacles = 2;
 let scene;
 const road_size = 18;
-const max_distance = 50;
-const rocks = 30;
-const grounds = 4;
+const max_distance = 100;
+const rocks = 40;
+const grounds = 7;
 let isUp = 1;
 const change_each = 10;
 let ticks = 0;
