@@ -16,12 +16,15 @@
 				<a-asset-item id="ground" src="/assets/ground.dae"></a-asset-item>
 			</a-assets>
 
-			<a-entity listener="stepFactor:0.5" camera="active: true" look-controls position="0 1.74 0" data-aframe-default-camera step-shake>
+			<a-entity listener="stepFactor:1" camera="active: true" look-controls position="0 1.74 0" data-aframe-default-camera step-shake>
 				<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
 			</a-entity>
 			<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 2 2"></a-entity>
 			<a-sky id="sky" color="#000"></a-sky>
     </a-scene>
+		<div style="position:absolute;top:0;left:0;color:white;padding:5px;font-size:40px;">
+			test
+		</div>
 		<script>
 			init();
 		</script>

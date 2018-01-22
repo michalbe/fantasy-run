@@ -77,15 +77,18 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
-		const modifier = this.el.components.camera.camera.getWorldDirection().x > 0 ? 1 : -1;
+		const dead_point = Math.PI/32;
+		const modifier = this.el.object3D.rotation.y > 0 ? -1 : 1;
 		if (
-			Math.abs(this.el.components.camera.camera.getWorldDirection().x) > 0.1 &&
-			(
-				(modifier > 0 && this.el.components.camera.camera.parent.position.x < road_size/2) ||
-				(modifier < 0 && this.el.components.camera.camera.parent.position.x > -road_size/2)
-			)
+			Math.abs(this.el.object3D.rotation.y) > dead_point
+			// &&
+			// (
+			// 	(modifier > 0 && this.el.object3D.position.x < road_size/2) ||
+			// 	(modifier < 0 && this.el.object3D.position.x > -road_size/2)
+			// )
 		) {
-			this.el.components.camera.camera.parent.position.x += this.data.stepFactor * modifier;
+			// alert('yo!')
+			this.el.object3D.position.x += 0.5 * modifier;
 		}
 		// this.el.components.camera.camera.parent.position.add(
 		// 	this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor)
@@ -95,7 +98,7 @@ AFRAME.registerComponent("listener", {
 
 function init() {
 	scene = document.querySelector('#scene1');
-	light = document.querySelector('#light');
+	// light = document.querySelector('#light');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
