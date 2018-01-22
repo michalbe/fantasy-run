@@ -77,7 +77,19 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
-		this.el.components.camera.camera.parent.position.add(this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor));
+		const modifier = this.el.components.camera.camera.getWorldDirection().x > 0 ? 1 : -1;
+		if (
+			Math.abs(this.el.components.camera.camera.getWorldDirection().x) > 0.1 &&
+			(
+				(modifier > 0 && this.el.components.camera.camera.parent.position.x < road_size/2) ||
+				(modifier < 0 && this.el.components.camera.camera.parent.position.x > -road_size/2)
+			)
+		) {
+			this.el.components.camera.camera.parent.position.x += this.data.stepFactor * modifier;
+		}
+		// this.el.components.camera.camera.parent.position.add(
+		// 	this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor)
+		// );
 	}
 });
 
