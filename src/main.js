@@ -1,5 +1,5 @@
 const speed = 0.9;
-const obstacles = 2;
+const curbs = 2;
 let scene;
 const road_size = 18;
 const max_walking_distance = (road_size/2) - 2;
@@ -20,7 +20,7 @@ function add_rock(isLeft, zPos, element) {
 	el.setAttribute('position', `${(road_size/2 + position_modifier) * multiplier} 0 ${zPos}`);
 	el.setAttribute('scale', `${scale} ${scale} ${scale}`);
 	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
-	el.setAttribute('collada-model', '#obstacle' + (1 + ~~(Math.random() * obstacles)));
+	el.setAttribute('collada-model', '#curb' + (1 + ~~(Math.random() * curbs)));
 
 	window.el = el;
 	if (!element) {
