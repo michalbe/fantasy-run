@@ -11,6 +11,24 @@ const change_each = 10;
 let ticks = 0;
 const step_size = 0.1;
 let lights;
+const obstacles = 3;
+const obstacle_types = 1;
+
+
+function add_obstacle(zPos, element) {
+	const el = element || document.createElement('a-entity');
+
+	el.setAttribute('position', `${road_size/2 - ~~(Math.random() * road_size)} -0.5 ${zPos}`);
+	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
+	el.setAttribute('collada-model', '#obstacle' + (1 + ~~(Math.random() * obstacle_types)));
+
+	// console.log(el.getAttribute('position'));
+	if (!element) {
+		el.setAttribute('move-obstacle', '');
+		scene.appendChild(el);
+	}
+}
+
 function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
@@ -69,6 +87,16 @@ AFRAME.registerComponent('move-ground', {
 	}
 });
 
+AFRAME.registerComponent('move-obstacle', {
+	tick() {
+		if (this.el.object3D.position.z > max_distance) {
+			this.el.object3D.position.z = -max_distance;
+			add_obstacle(-max_distance, this.el);
+		}
+		this.el.object3D.position.z += speed;
+	}
+});
+
 AFRAME.registerComponent("listener", {
 	schema :
 	{
@@ -105,6 +133,11 @@ function init() {
 	const ground_step = (max_distance * 2) / grounds;
 	for (let i = 0; i < grounds; i++) {
 		add_ground(i * ground_step - max_distance);
+	}
+
+	const obstacle_step = (max_distance * 2) / obstacles;
+	for (let i = 0; i < obstacles; i++) {
+		add_obstacle(i * obstacle_step - max_distance);
 	}
 
 }
