@@ -82,11 +82,11 @@ AFRAME.registerComponent("listener", {
 		const modifier = camera.rotation.y > 0 ? -1 : 1;
 		if (
 			Math.abs(camera.rotation.y) > dead_point
-			// &&
-			// (
-			// 	(modifier > 0 && this.el.object3D.position.x < road_size/2) ||
-			// 	(modifier < 0 && this.el.object3D.position.x > -road_size/2)
-			// )
+			&&
+			(
+				(modifier > 0 && this.el.object3D.position.x < road_size/2) ||
+				(modifier < 0 && this.el.object3D.position.x > -road_size/2)
+			)
 		) {
 			this.el.object3D.position.x += 0.5 * modifier;
 		}
