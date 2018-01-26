@@ -2,6 +2,7 @@ const speed = 0.9;
 const obstacles = 2;
 let scene;
 const road_size = 18;
+const max_walking_distance = (road_size/2) - 2;
 const max_distance = 100;
 const rocks = 40;
 const grounds = 7;
@@ -77,18 +78,18 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
-		const dead_point = Math.PI/32;
+		const dead_point = Math.PI/24;
 		const camera = this.el.children[0].object3D;
 		const modifier = camera.rotation.y > 0 ? -1 : 1;
 		if (
 			Math.abs(camera.rotation.y) > dead_point
 			&&
 			(
-				(modifier > 0 && this.el.object3D.position.x < road_size/2) ||
-				(modifier < 0 && this.el.object3D.position.x > -road_size/2)
+				(modifier > 0 && this.el.object3D.position.x < max_walking_distance) ||
+				(modifier < 0 && this.el.object3D.position.x > -max_walking_distance)
 			)
 		) {
-			this.el.object3D.position.x += 0.5 * modifier;
+			this.el.object3D.position.x += 0.2 * modifier;
 		}
 	}
 });
