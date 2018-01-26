@@ -78,21 +78,18 @@ AFRAME.registerComponent("listener", {
 	},
 	tick : function() {
 		const dead_point = Math.PI/32;
-		const modifier = this.el.object3D.rotation.y > 0 ? -1 : 1;
+		const camera = this.el.children[0].object3D;
+		const modifier = camera.rotation.y > 0 ? -1 : 1;
 		if (
-			Math.abs(this.el.object3D.rotation.y) > dead_point
+			Math.abs(camera.rotation.y) > dead_point
 			// &&
 			// (
 			// 	(modifier > 0 && this.el.object3D.position.x < road_size/2) ||
 			// 	(modifier < 0 && this.el.object3D.position.x > -road_size/2)
 			// )
 		) {
-			// alert('yo!')
 			this.el.object3D.position.x += 0.5 * modifier;
 		}
-		// this.el.components.camera.camera.parent.position.add(
-		// 	this.el.components.camera.camera.getWorldDirection().multiplyScalar(this.data.stepFactor)
-		// );
 	}
 });
 
