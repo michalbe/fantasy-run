@@ -8,7 +8,7 @@
 		<script src="src/main.js"></script>
   </head>
   <body>
-    <a-scene id="scene1" light="defaultLightsEnabled: false">
+    <a-scene id="scene1" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
 			<a-assets>
 				<a-asset-item id="wolf" src="/assets/wolf.dae"></a-asset-item>
 				<a-asset-item id="curb1" src="/assets/rock.dae"></a-asset-item>
@@ -25,7 +25,7 @@
 				</a-entity>
 			</a-entity>
 
-			<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 2 2"></a-entity>
+			<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 1 2"></a-entity>
 			<a-sky id="sky" color="#000"></a-sky>
     </a-scene>
 		<script>
