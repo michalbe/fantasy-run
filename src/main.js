@@ -12,21 +12,51 @@ let ticks = 0;
 const step_size = 0.1;
 let lights;
 const obstacles = 3;
-const obstacle_types = 3;
+const obstacle_types = 4;
 
+const animated_obstacles = [
+	4
+];
 
 function add_obstacle(zPos, element) {
 	const el = element || document.createElement('a-entity');
-
+	const obstacle_index = (1 + ~~(Math.random() * obstacle_types));
+	const is_animated = animated_obstacles.includes(obstacle_index);
+	let loader;
 	el.setAttribute('position', `${road_size/2 - ~~(Math.random() * road_size)} -0.5 ${zPos}`);
-	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
-	el.setAttribute('collada-model', '#obstacle' + (1 + ~~(Math.random() * obstacle_types)));
+
+	if (!is_animated) {
+		loader = 'collada';
+		el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
+		el.removeAttribute('animation-mixer');
+	} else {
+		loader = 'gltf';
+		el.setAttribute('rotation', `0 0 0`);
+		el.setAttribute('animation-mixer', '');
+	}
+
+	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
 
 	// console.log(el.getAttribute('position'));
 	if (!element) {
 		el.setAttribute('move-obstacle', '');
 		scene.appendChild(el);
 	}
+}
+
+function add_farmer(zPos, element) {
+const el = element || document.createElement('a-entity');
+
+el.setAttribute('position', `0 0 -5`);
+el.setAttribute('rotation', `0 0 0`);
+el.setAttribute('gltf-model', '#farmer');
+el.setAttribute('animation-mixer', '');
+scene.appendChild(el);
+	// console.log(el.getAttribute('position'));
+	// if (!element) {
+	// 	el.setAttribute('move-obstacle', '');
+	// 	scene.appendChild(el);
+	// }
 }
 
 function add_rock(isLeft, zPos, element) {
@@ -139,5 +169,4 @@ function init() {
 	for (let i = 0; i < obstacles; i++) {
 		add_obstacle(i * obstacle_step - max_distance);
 	}
-
 }
