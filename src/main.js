@@ -12,10 +12,10 @@ let ticks = 0;
 const step_size = 0.1;
 let lights;
 const obstacles = 3;
-const obstacle_types = 4;
+const obstacle_types = 5;
 
 const animated_obstacles = [
-	4
+	4, 5
 ];
 
 function add_obstacle(zPos, element) {
