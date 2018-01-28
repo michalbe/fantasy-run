@@ -1,4 +1,4 @@
-const speed = 0.9;
+const speed = 0.5;
 const curbs = 2;
 let scene;
 const road_size = 18;
@@ -24,15 +24,15 @@ function add_obstacle(zPos, element) {
 	const is_animated = animated_obstacles.includes(obstacle_index);
 	let loader;
 	el.setAttribute('position', `${road_size/2 - ~~(Math.random() * road_size)} -0.5 ${zPos}`);
+	el.setAttribute('animation-mixer', '');
 
 	if (!is_animated) {
 		loader = 'collada';
 		el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
-		el.removeAttribute('animation-mixer');
+		// el.removeAttribute('animation-mixer');
 	} else {
 		loader = 'gltf';
-		el.setAttribute('rotation', `0 0 0`);
-		el.setAttribute('animation-mixer', '');
+		el.setAttribute('rotation', `0 ${45 - ~~(Math.random()*90)} 0`);
 	}
 
 	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
