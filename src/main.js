@@ -44,21 +44,6 @@ function add_obstacle(zPos, element) {
 	}
 }
 
-function add_farmer(zPos, element) {
-const el = element || document.createElement('a-entity');
-
-el.setAttribute('position', `0 0 -5`);
-el.setAttribute('rotation', `0 0 0`);
-el.setAttribute('gltf-model', '#farmer');
-el.setAttribute('animation-mixer', '');
-scene.appendChild(el);
-	// console.log(el.getAttribute('position'));
-	// if (!element) {
-	// 	el.setAttribute('move-obstacle', '');
-	// 	scene.appendChild(el);
-	// }
-}
-
 function add_rock(isLeft, zPos, element) {
 	const el = element || document.createElement('a-entity');
 	const scale = 0.4 + Math.random();
