@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Fantasy Downhill</title>
+    <meta name="description" content="Downhill">
+    <script src="node_modules/aframe/dist/aframe.js"></script>
+    <script src="node_modules/aframe-extras.animation-mixer/dist/aframe-extras.animation-mixer.min.js"></script>
+    <script src="node_modules/aframe-gui/dist/aframe-gui.js"></script>
+		<script src="src/intro.js"></script>
+  </head>
+  <body>
+    <a-scene id="intro-scene" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
+			<a-assets>
+				<a-asset-item id="wolf" src="/assets/wolf.dae"></a-asset-item>
+				<a-asset-item id="curb1" src="/assets/rock.dae"></a-asset-item>
+				<a-asset-item id="curb2" src="/assets/tree.dae"></a-asset-item>
+				<a-asset-item id="obstacle1" src="/assets/waggon.dae"></a-asset-item>
+				<a-asset-item id="obstacle2" src="/assets/waggon2.dae"></a-asset-item>
+				<a-asset-item id="obstacle3" src="/assets/tent.dae"></a-asset-item>
+				<a-asset-item id="obstacle4" src="/assets/farmer.gltf" ></a-asset-item>
+				<a-asset-item id="obstacle5" src="/assets/bear.gltf" ></a-asset-item>
+				<a-asset-item id="obstacle6" src="/assets/horse.gltf" ></a-asset-item>
+				<a-asset-item id="ground" src="/assets/ground.dae"></a-asset-item>
+			</a-assets>
+
+			<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
+				<a-entity camera="active: true" look-controls data-aframe-default-camera>
+					<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
+					<a-entity id="light" light="type: spot; color: #FFF; " position="0 0.34 1"></a-entity>
+				</a-entity>
+			</a-entity>
+
+			<a-entity collada-model="#ground"></a-entity>
+			<a-entity collada-model="#curb2" position="-3 0 -5"></a-entity>
+			<a-entity collada-model="#curb2" position="-5 0 9"></a-entity>
+			<a-entity collada-model="#curb2" position="7 0 4"></a-entity>
+			<a-entity gltf-model="#obstacle4" position="3 0 -7" animation-mixer scale="0.5 0.5 0.5"></a-entity>
+			<a-entity gltf-model="#obstacle6" position="0 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 270 0"></a-entity>
+			<a-entity collada-model="#obstacle1" position="-2 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
+			<a-entity gltf-model="#obstacle5" position="-9 0 0" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
+			<a-sky id="sky" color="#000"></a-sky>
+    </a-scene>
+		<script>
+			// init();
+		</script>
+  </body>
+</html>
