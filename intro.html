@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Fantasy Downhill</title>
-    <meta name="description" content="Downhill">
-    <script src="node_modules/aframe/dist/aframe.js"></script>
-    <script src="node_modules/aframe-extras.animation-mixer/dist/aframe-extras.animation-mixer.min.js"></script>
-    <script src="node_modules/aframe-gui/dist/aframe-gui.js"></script>
+	<head>
+		<meta charset="utf-8">
+		<title>Fantasy Downhill</title>
+		<meta name="description" content="Downhill">
+		<script src="node_modules/aframe/dist/aframe.js"></script>
+		<script src="node_modules/aframe-extras.animation-mixer/dist/aframe-extras.animation-mixer.min.js"></script>
+		<script src="node_modules/aframe-gui/dist/aframe-gui.js"></script>
 		<script src="src/intro.js"></script>
-  </head>
-  <body>
-    <a-scene id="intro-scene" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
+	</head>
+	<body>
+		<a-scene id="intro-scene" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
 			<a-assets>
 				<a-asset-item id="wolf" src="/assets/wolf.dae"></a-asset-item>
 				<a-asset-item id="curb1" src="/assets/rock.dae"></a-asset-item>
@@ -24,12 +24,39 @@
 				<a-asset-item id="ground" src="/assets/ground.dae"></a-asset-item>
 			</a-assets>
 
-			<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
+			<a-entity id="camera_wrapper" position="0 0.5 0" listener="stepFactor:1">
 				<a-entity camera="active: true" look-controls data-aframe-default-camera>
-					<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
+					<a-gui-cursor id="cursor"
+						raycaster="interval: 500; objects: [gui-interactable]"
+						fuse="true"
+						fuse-timeout="2000"
+						design="dot"
+					>
+					</a-gui-cursor>
 					<a-entity id="light" light="type: spot; color: #FFF; " position="0 0.34 1"></a-entity>
 				</a-entity>
 			</a-entity>
+
+			<a-gui-flex-container
+				flex-direction="column"
+				justify-content="center"
+				align-items="normal"
+				component-padding="0.1"
+				opacity="0.7"
+				width="3.5"
+				height="2.5"
+				position="0 1.25 -4"
+				rotation="0 0 0"
+			>
+				<a-gui-button
+					width="2.5" height="0.75"
+					onclick="testButtonAction" key-code="32"
+					value="Play"
+					font-family="Arial"
+					margin="0 0 0.05 0"
+				>
+				</a-gui-button>
+			</a-gui-flex-container>
 
 			<a-entity collada-model="#ground"></a-entity>
 			<a-entity collada-model="#curb2" position="-3 0 -5"></a-entity>
@@ -40,9 +67,9 @@
 			<a-entity collada-model="#obstacle1" position="-2 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
 			<a-entity gltf-model="#obstacle5" position="-9 0 0" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
 			<a-sky id="sky" color="#000"></a-sky>
-    </a-scene>
+		</a-scene>
 		<script>
 			// init();
 		</script>
-  </body>
+	</body>
 </html>
