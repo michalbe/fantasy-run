@@ -1,18 +1,19 @@
-const speed = 0.5;
+const speed = 0.9;
 const curbs = 2;
-let scene;
 const road_size = 18;
 const max_walking_distance = (road_size/2) - 2;
 const max_distance = 100;
 const rocks = 40;
 const grounds = 8;
-let isUp = 1;
 const change_each = 10;
-let ticks = 0;
 const step_size = 0.1;
-let lights;
-const obstacles = 3;
+const obstacles = 10;
 const obstacle_types = 6;
+
+let scene;
+let isUp = 1;
+let ticks = 0;
+let lights;
 
 const animated_obstacles = [
 	4, 5, 6
@@ -29,15 +30,12 @@ function add_obstacle(zPos, element) {
 	if (!is_animated) {
 		loader = 'collada';
 		el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
-		// el.removeAttribute('animation-mixer');
 	} else {
 		loader = 'gltf';
 		el.setAttribute('rotation', `0 ${45 - ~~(Math.random()*90)} 0`);
 	}
 
 	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
-
-	// console.log(el.getAttribute('position'));
 	if (!element) {
 		el.setAttribute('move-obstacle', '');
 		scene.appendChild(el);
@@ -139,7 +137,6 @@ AFRAME.registerComponent("listener", {
 
 function init() {
 	scene = document.querySelector('#scene1');
-	// light = document.querySelector('#light');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
