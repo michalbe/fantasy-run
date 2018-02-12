@@ -17,6 +17,15 @@ let isUp = 1;
 let ticks = 0;
 let lights;
 let UI;
+
+const movable_components = [
+	'calculate-distance',
+	'move-obstacle',
+	'move-rock',
+	'move-groud',
+	'listener'
+];
+
 const animated_obstacles = [
 	4, 5, 6
 ];
@@ -144,6 +153,10 @@ AFRAME.registerComponent("listener", {
 		}
 	}
 });
+
+function stop() {
+
+}
 
 function init() {
 	scene = document.querySelector('#scene1');
