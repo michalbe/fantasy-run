@@ -22,7 +22,7 @@ const movable_components = [
 	'calculate-distance',
 	'move-obstacle',
 	'move-rock',
-	'move-groud',
+	'move-ground',
 	'listener'
 ];
 
@@ -154,8 +154,16 @@ AFRAME.registerComponent("listener", {
 	}
 });
 
-function stop() {
-
+function stop_game() {
+	Array.from(
+		document.querySelectorAll(movable_components.map((component) => {
+			return `[${component}]`
+		}).join(', '))
+	).forEach((element) => {
+		movable_components.forEach((component) => {
+			element.removeAttribute(component);
+		});
+	});
 }
 
 function init() {
