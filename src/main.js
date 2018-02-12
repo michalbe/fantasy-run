@@ -10,6 +10,7 @@ const change_each = 10;
 const step_size = 0.1;
 const obstacles = 10;
 const obstacle_types = 6;
+const immortality_threshold = 4000;
 
 let distance = 0;
 let scene;
@@ -18,7 +19,16 @@ let ticks = 0;
 let lights;
 let camera;
 let UI;
-let immortality_threshold = 4000;
+
+function reset() {
+	distance = 0;
+	scene = null;
+	isUp = 1;
+	ticks = 0;
+	lights = null;
+	camera = null;
+	UI = null;
+}
 
 const movable_components = [
 	'calculate-distance',
@@ -169,7 +179,8 @@ function stop_game() {
 	});
 }
 
-function init() {
+function init_main() {
+	reset();
 	scene = document.querySelector('#scene1');
 	UI = document.querySelector('#UI');
 	camera = document.querySelector('#camera_entity');
@@ -194,4 +205,18 @@ function init() {
 		});
 	}, immortality_threshold);
 
+}
+
+function go_to_github() {
+	window.open('http://github.com/michalbe');
+}
+
+function intro_init() {
+	const scene_renderer = document.querySelector('#scene-renderer');
+	scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#intro-scene').innerHTML;
+	AFRAME.scenes[0].init();
+  
+	const points_element = document.querySelector('#points');
+	const points = window.localStorage.getItem('points') || 0;
+	points_element.setAttribute('value', `Best: ${points}m`);
 }
