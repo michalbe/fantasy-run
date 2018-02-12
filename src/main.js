@@ -1,4 +1,5 @@
 const speed = 0.9;
+const meter_length = 8;
 const curbs = 2;
 const road_size = 18;
 const max_walking_distance = (road_size/2) - 2;
@@ -10,11 +11,12 @@ const step_size = 0.1;
 const obstacles = 10;
 const obstacle_types = 6;
 
+let distance = 0;
 let scene;
 let isUp = 1;
 let ticks = 0;
 let lights;
-
+let UI;
 const animated_obstacles = [
 	4, 5, 6
 ];
@@ -80,6 +82,13 @@ AFRAME.registerComponent('step-shake', {
 	}
 });
 
+AFRAME.registerComponent('calculate-distance', {
+	tick() {
+		distance += speed
+		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
+	}
+});
+
 AFRAME.registerComponent('move-rock', {
 	tick() {
 		const position_modifier = 1 - Math.random()*2;
@@ -131,12 +140,14 @@ AFRAME.registerComponent("listener", {
 			)
 		) {
 			this.el.object3D.position.x += 0.2 * modifier;
+			UI.object3D.position.x += 0.2 * modifier;
 		}
 	}
 });
 
 function init() {
 	scene = document.querySelector('#scene1');
+	UI = document.querySelector('#UI');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
