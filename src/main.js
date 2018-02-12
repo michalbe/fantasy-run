@@ -18,6 +18,7 @@ let ticks = 0;
 let lights;
 let camera;
 let UI;
+let immortality_threshold = 4000;
 
 const movable_components = [
 	'calculate-distance',
@@ -187,7 +188,10 @@ function init() {
 		add_obstacle(i * obstacle_step - max_distance);
 	}
 
-	camera.addEventListener('hit', (e) => {
-		stop_game();
-	});
+	setTimeout(() => {
+		camera.addEventListener('hit', (e) => {
+			stop_game();
+		});
+	}, immortality_threshold);
+
 }
