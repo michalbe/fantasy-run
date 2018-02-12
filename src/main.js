@@ -1,5 +1,5 @@
 const speed = 0.9;
-const meter_length = 8;
+const meter_length = 12;
 const curbs = 2;
 const road_size = 18;
 const max_walking_distance = (road_size/2) - 2;
@@ -16,6 +16,7 @@ let scene;
 let isUp = 1;
 let ticks = 0;
 let lights;
+let camera;
 let UI;
 
 const movable_components = [
@@ -48,6 +49,7 @@ function add_obstacle(zPos, element) {
 
 	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
 	if (!element) {
+		el.classList.add('obstacle');
 		el.setAttribute('move-obstacle', '');
 		scene.appendChild(el);
 	}
@@ -169,6 +171,7 @@ function stop_game() {
 function init() {
 	scene = document.querySelector('#scene1');
 	UI = document.querySelector('#UI');
+	camera = document.querySelector('#camera_entity');
 	const step = (max_distance * 2) / rocks;
 	for (let i = 0; i < rocks; i++) {
 		add_rock(Math.random() > 0.5, i * step - max_distance);
@@ -183,4 +186,8 @@ function init() {
 	for (let i = 0; i < obstacles; i++) {
 		add_obstacle(i * obstacle_step - max_distance);
 	}
+
+	camera.addEventListener('hit', (e) => {
+		stop_game();
+	});
 }
