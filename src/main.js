@@ -181,7 +181,7 @@ function stop_game() {
 
 function init_main() {
 	reset();
-	scene = document.querySelector('#scene1');
+	scene = document.querySelector('#scene-renderer');
 	UI = document.querySelector('#UI');
 	camera = document.querySelector('#camera_entity');
 	const step = (max_distance * 2) / rocks;
@@ -215,8 +215,18 @@ function intro_init() {
 	const scene_renderer = document.querySelector('#scene-renderer');
 	scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#intro-scene').innerHTML;
 	AFRAME.scenes[0].init();
-  
+
 	const points_element = document.querySelector('#points');
 	const points = window.localStorage.getItem('points') || 0;
 	points_element.setAttribute('value', `Best: ${points}m`);
+}
+
+function start_game() {
+	AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
+
+	const scene_renderer = document.querySelector('#scene-renderer');
+	scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#game-scene').innerHTML;
+	AFRAME.scenes[0].init();
+
+	init_main();
 }
