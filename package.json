@@ -23,6 +23,7 @@
   "homepage": "https://github.com/michalbe/fantasy-downhill#readme",
   "dependencies": {
     "aframe": "^0.7.1",
-    "aframe-extras.animation-mixer": "^3.13.1"
+    "aframe-extras.animation-mixer": "^3.13.1",
+    "aframe-gui": "^0.1.5"
   }
 }
