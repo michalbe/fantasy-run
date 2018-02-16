@@ -13,99 +13,18 @@
 	</head>
 	<body>
 		<script id="game-scene" type="text/html">
-			<a-gui-flex-container
-				id="UI"
-				flex-direction="column"
-				justify-content="center"
-				align-items="normal"
-				component-padding="0.1"
-				opacity="0.9"
-				width="1"
-				height="0.5"
-				position="-3 3 -4" rotation="0 0 0"
-			>
-				<a-gui-label
-					calculate-distance
-					width="1" height="0.5"
-					value="000m"
-					font-family="Arial"
-					margin="0 0 0.05 0"
-				>
-				</a-gui-label>
-			</a-gui-flex-container>
 
-			<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
-				<a-entity camera="active: true" look-controls data-aframe-default-camera>
-					<a-box id="camera_entity" position="0 0.3 0" scale="0.2 0.2 0.2" material="shader: flat; color: #FF00FF" aabb-collider="objects: .obstacle"></a-box>
-					<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
-				</a-entity>
-			</a-entity>
-			<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 1 2"></a-entity>
 		</script>
 
 		<script id="intro-scene" type="text/html">
-			<a-entity id="camera_wrapper" position="0 0.5 0">
-				<a-entity camera="active: true" look-controls data-aframe-default-camera>
-					<a-gui-cursor id="cursor"
-						raycaster="interval: 500; objects: [gui-interactable]"
-						fuse="true"
-						fuse-timeout="2000"
-						design="dot"
-					>
-					</a-gui-cursor>
-					<a-entity id="light" light="type: spot; color: #FFF; " position="0 0.34 1"></a-entity>
-				</a-entity>
-			</a-entity>
 
-			<a-gui-flex-container
-				id="UI"
-				flex-direction="column"
-				justify-content="center"
-				align-items="normal"
-				component-padding="0.1"
-				opacity="0.7"
-				width="3.5"
-				height="2.5"
-				position="0 1.6 -4"
-				rotation="0 0 0"
-			>
-				<a-gui-label
-					id="points"
-					width="2.5" height="0.5"
-					value="Best: 000m"
-					font-family="Arial"
-					margin="0 0 0.05 0"
-				>
-				</a-gui-label>
-				<a-gui-button
-					width="2.5" height="0.75"
-					onclick="start_game" key-code="32"
-					value="Play"
-					font-family="Arial"
-					margin="0 0 0.05 0"
-				>
-				</a-gui-button>
-				<a-gui-button
-						width="2.5" height="0.5"
-						onclick="go_to_github"
-						value="by @michalbe"
-						font-family="Arial"
-						margin="0 0 0.05 0"
-					>
-					</a-gui-button>
-			</a-gui-flex-container>
-
-			<a-entity collada-model="#ground"></a-entity>
-			<a-entity collada-model="#curb2" position="-3 0 -5"></a-entity>
-			<a-entity collada-model="#curb2" position="-5 0 9"></a-entity>
-			<a-entity collada-model="#curb2" position="7 0 4"></a-entity>
-			<a-entity gltf-model="#obstacle4" position="3 0 -7" animation-mixer scale="0.5 0.5 0.5"></a-entity>
-			<a-entity gltf-model="#obstacle6" position="0 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 270 0"></a-entity>
-			<a-entity collada-model="#obstacle1" position="-2 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
-			<a-entity gltf-model="#obstacle5" position="-9 0 0" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
 		</script>
 
 		<script id="game-shared" type="text/html">
+
+		</script>
+
+		<a-scene id="scene-renderer" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
 			<a-assets>
 				<a-asset-item id="wolf" src="/assets/wolf.dae"></a-asset-item>
 				<a-asset-item id="curb1" src="/assets/rock.dae"></a-asset-item>
@@ -119,9 +38,99 @@
 				<a-asset-item id="ground" src="/assets/ground.dae"></a-asset-item>
 			</a-assets>
 			<a-sky id="sky" color="#000"></a-sky>
-		</script>
 
-		<a-scene id="scene-renderer" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
+			<a-entity id="intro">
+				<a-entity id="camera_wrapper" position="0 0.5 0">
+					<a-entity camera="active: true" id="intro-camera" look-controls data-aframe-default-camera>
+						<a-gui-cursor id="cursor"
+							raycaster="interval: 500; objects: [gui-interactable]"
+							fuse="true"
+							fuse-timeout="2000"
+							design="dot"
+						>
+						</a-gui-cursor>
+						<a-entity id="light" light="type: spot; color: #FFF; " position="0 0.34 1"></a-entity>
+					</a-entity>
+				</a-entity>
+
+				<a-gui-flex-container
+					id="UI"
+					flex-direction="column"
+					justify-content="center"
+					align-items="normal"
+					component-padding="0.1"
+					opacity="0.7"
+					width="3.5"
+					height="2.5"
+					position="0 1.6 -4"
+					rotation="0 0 0"
+				>
+					<a-gui-label
+						id="points"
+						width="2.5" height="0.5"
+						value="Best: 000m"
+						font-family="Arial"
+						margin="0 0 0.05 0"
+					>
+					</a-gui-label>
+					<a-gui-button
+						width="2.5" height="0.75"
+						onclick="start_game" key-code="32"
+						value="Play"
+						font-family="Arial"
+						margin="0 0 0.05 0"
+					>
+					</a-gui-button>
+					<a-gui-button
+							width="2.5" height="0.5"
+							onclick="go_to_github"
+							value="by @michalbe"
+							font-family="Arial"
+							margin="0 0 0.05 0"
+						>
+						</a-gui-button>
+				</a-gui-flex-container>
+
+				<a-entity collada-model="#ground"></a-entity>
+				<a-entity collada-model="#curb2" position="-3 0 -5"></a-entity>
+				<a-entity collada-model="#curb2" position="-5 0 9"></a-entity>
+				<a-entity collada-model="#curb2" position="7 0 4"></a-entity>
+				<a-entity gltf-model="#obstacle4" position="3 0 -7" animation-mixer scale="0.5 0.5 0.5"></a-entity>
+				<a-entity gltf-model="#obstacle6" position="0 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 270 0"></a-entity>
+				<a-entity collada-model="#obstacle1" position="-2 0 5" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
+				<a-entity gltf-model="#obstacle5" position="-9 0 0" animation-mixer scale="0.5 0.5 0.5" rotation="0 90 0"></a-entity>
+			</a-entity>
+
+			<a-entity id="game_scene" visibility="false">
+				<a-gui-flex-container
+					id="UI"
+					flex-direction="column"
+					justify-content="center"
+					align-items="normal"
+					component-padding="0.1"
+					opacity="0.9"
+					width="1"
+					height="0.5"
+					position="-3 3 -4" rotation="0 0 0"
+				>
+					<a-gui-label
+						calculate-distance
+						width="1" height="0.5"
+						value="000m"
+						font-family="Arial"
+						margin="0 0 0.05 0"
+					>
+					</a-gui-label>
+				</a-gui-flex-container>
+
+				<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
+					<a-entity id="game-camera" camera="active: false" look-controls data-aframe-default-camera>
+						<a-box id="camera_entity" position="0 0.3 0" scale="0.2 0.2 0.2" material="shader: flat; opacity: 0" aabb-collider="objects: .obstacle"></a-box>
+						<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
+					</a-entity>
+				</a-entity>
+				<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 1 2"></a-entity>
+			</a-entity>
 		</a-scene>
 		<script>
 			intro_init();

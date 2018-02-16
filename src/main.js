@@ -107,7 +107,7 @@ AFRAME.registerComponent('step-shake', {
 AFRAME.registerComponent('calculate-distance', {
 	tick() {
 		distance += speed
-		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
+		UI && UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
 	}
 });
 
@@ -150,6 +150,9 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
+		if (!UI) {
+			return;
+		}
 		const dead_point = Math.PI/24;
 		const camera = this.el.children[0].object3D;
 		const modifier = camera.rotation.y > 0 ? -1 : 1;
@@ -212,9 +215,11 @@ function go_to_github() {
 }
 
 function intro_init() {
-	const scene_renderer = document.querySelector('#scene-renderer');
-	scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#intro-scene').innerHTML;
-	AFRAME.scenes[0].init();
+	// const scene_renderer = document.querySelector('#scene-renderer');
+	// scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#intro-scene').innerHTML;
+	// AFRAME.scenes[0].init();
+	document.querySelector('#intro-camera').setAttribute('camera', 'active: true');
+	document.querySelector('#game-camera').setAttribute('camera', 'active: false');
 
 	const points_element = document.querySelector('#points');
 	const points = window.localStorage.getItem('points') || 0;
@@ -222,11 +227,14 @@ function intro_init() {
 }
 
 function start_game() {
-	AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
-
-	const scene_renderer = document.querySelector('#scene-renderer');
-	scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#game-scene').innerHTML;
-	AFRAME.scenes[0].init();
-
+	// AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
+  //
+	// const scene_renderer = document.querySelector('#scene-renderer');
+	// scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#game-scene').innerHTML;
+	// AFRAME.scenes[0].init();
+	document.querySelector('#intro-camera').setAttribute('camera', 'active: false');
+	document.querySelector('#game-camera').setAttribute('camera', 'active: true');
+	document.querySelector('#intro').setAttribute('visible', 'false');
+	document.querySelector('#game_scene').setAttribute('visible', 'true');
 	init_main();
 }
