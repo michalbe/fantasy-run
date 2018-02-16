@@ -106,8 +106,12 @@ AFRAME.registerComponent('step-shake', {
 
 AFRAME.registerComponent('calculate-distance', {
 	tick() {
+		if(!UI) {
+			return;
+		}
+		// console.log(Math.round(distance/meter_length));
 		distance += speed
-		UI && UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
+		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
 	}
 });
 
