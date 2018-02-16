@@ -41,7 +41,7 @@
 
 			<a-entity id="intro">
 				<a-entity id="camera_wrapper" position="0 0.5 0">
-					<a-entity camera="active: true" id="intro-camera" look-controls data-aframe-default-camera>
+					<a-entity camera="active: true" id="intro-camera" look-controls>
 						<a-gui-cursor id="cursor"
 							raycaster="interval: 500; objects: [gui-interactable]"
 							fuse="true"
@@ -124,7 +124,7 @@
 				</a-gui-flex-container>
 
 				<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
-					<a-entity id="game-camera" camera="active: false" look-controls data-aframe-default-camera>
+					<a-entity id="game-camera" camera="active: false" look-controls>
 						<a-box id="camera_entity" position="0 0.3 0" scale="0.2 0.2 0.2" material="shader: flat; opacity: 0" aabb-collider="objects: .obstacle"></a-box>
 						<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
 					</a-entity>
