@@ -109,7 +109,7 @@ AFRAME.registerComponent('calculate-distance', {
 		if(!UI) {
 			return;
 		}
-		// console.log(Math.round(distance/meter_length));
+		
 		distance += speed
 		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
 	}
@@ -208,9 +208,7 @@ function init_main() {
 
 	document.querySelector('#camera_entity').setAttribute('aabb-collider', 'objects: .obstacle');
 	setTimeout(() => {
-		console.log('PSZYPIOLEM!');
 		camera.addEventListener('hit', (e) => {
-			console.log('HIT!!!');
 			stop_game();
 		});
 	}, immortality_threshold);
@@ -235,7 +233,6 @@ function intro_init() {
 
 function start_game() {
 	if (document.querySelector('#game_scene').setAttribute('visible') === 'true') {
-		console.log('straczy');
 		return;
 	}
 	// AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
