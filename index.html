@@ -7,7 +7,6 @@
 		<script src="node_modules/aframe/dist/aframe.js"></script>
 		<script src="node_modules/aframe-extras.animation-mixer/dist/aframe-extras.animation-mixer.min.js"></script>
 		<script src="node_modules/aframe-gui/dist/aframe-gui.js"></script>
-		<script src="lib/aframe-template-component.js"></script>
 		<script src="lib/aframe-aabb-collider.js"></script>
 		<script src="src/main.js"></script>
 	</head>
@@ -122,15 +121,16 @@
 					>
 					</a-gui-label>
 				</a-gui-flex-container>
-
-				<a-entity id="camera_wrapper" position="0 0.34 0" listener="stepFactor:1">
-					<a-entity id="game-camera" camera="active: false" look-controls>
-						<a-box id="camera_entity" position="0 0.3 0" scale="0.2 0.2 0.2" material="shader: flat; opacity: 0" aabb-collider="objects: .obstacle"></a-box>
-						<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
-					</a-entity>
-				</a-entity>
 				<a-entity id="light" light="type: spot; color: #FFF; angle: 180;" position="0 1 2"></a-entity>
 			</a-entity>
+
+			<a-entity id="camera_wrapper_game" position="0 0.34 0" listener="stepFactor:1">
+				<a-entity id="game-camera" camera="active: false" look-controls>
+					<a-box id="camera_entity" position="0 0.3 0" scale="0.2 0.2 0.2" material="shader: flat; color: #ff00ff"></a-box>
+					<a-cursor cursor="fuse: true;fuseTimeout:5000" material="color:yellow; opacity:0.2"></a-cursor>
+				</a-entity>
+			</a-entity>
+
 		</a-scene>
 		<script>
 			intro_init();

@@ -8,7 +8,7 @@ const rocks = 40;
 const grounds = 8;
 const change_each = 10;
 const step_size = 0.1;
-const obstacles = 10;
+const obstacles = 1;
 const obstacle_types = 6;
 const immortality_threshold = 4000;
 
@@ -188,7 +188,7 @@ function stop_game() {
 
 function init_main() {
 	reset();
-	scene = document.querySelector('#scene-renderer');
+	scene = document.querySelector('#game_scene');
 	UI = document.querySelector('#UI');
 	camera = document.querySelector('#camera_entity');
 	const step = (max_distance * 2) / rocks;
@@ -206,8 +206,11 @@ function init_main() {
 		add_obstacle(i * obstacle_step - max_distance);
 	}
 
+	document.querySelector('#camera_entity').setAttribute('aabb-collider', 'objects: .obstacle');
 	setTimeout(() => {
+		console.log('PSZYPIOLEM!');
 		camera.addEventListener('hit', (e) => {
+			console.log('HIT!!!');
 			stop_game();
 		});
 	}, immortality_threshold);
@@ -231,6 +234,10 @@ function intro_init() {
 }
 
 function start_game() {
+	if (document.querySelector('#game_scene').setAttribute('visible') === 'true') {
+		console.log('straczy');
+		return;
+	}
 	// AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
   //
 	// const scene_renderer = document.querySelector('#scene-renderer');
