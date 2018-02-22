@@ -109,7 +109,7 @@ AFRAME.registerComponent('calculate-distance', {
 		if(!UI) {
 			return;
 		}
-		
+
 		distance += speed
 		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
 	}
@@ -220,9 +220,6 @@ function go_to_github() {
 }
 
 function intro_init() {
-	// const scene_renderer = document.querySelector('#scene-renderer');
-	// scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#intro-scene').innerHTML;
-	// AFRAME.scenes[0].init();
 	document.querySelector('#intro-camera').setAttribute('camera', 'active: true');
 	document.querySelector('#game-camera').setAttribute('camera', 'active: false');
 
@@ -235,11 +232,7 @@ function start_game() {
 	if (document.querySelector('#game_scene').setAttribute('visible') === 'true') {
 		return;
 	}
-	// AFRAME.scenes[0].removeChild(AFRAME.scenes[0].querySelector('#camera_wrapper'));
-  //
-	// const scene_renderer = document.querySelector('#scene-renderer');
-	// scene_renderer.innerHTML = document.querySelector('#game-shared').innerHTML + document.querySelector('#game-scene').innerHTML;
-	// AFRAME.scenes[0].init();
+
 	document.querySelector('#intro-camera').setAttribute('camera', 'active: false');
 	document.querySelector('#game-camera').setAttribute('camera', 'active: true');
 	document.querySelector('#intro').setAttribute('visible', 'false');
