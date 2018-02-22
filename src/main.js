@@ -8,9 +8,9 @@ const rocks = 40;
 const grounds = 8;
 const change_each = 10;
 const step_size = 0.1;
-const obstacles = 1;
+const obstacles = 10;
 const obstacle_types = 6;
-const immortality_threshold = 4000;
+const immortality_threshold = 2000;
 
 let distance = 0;
 let scene;
