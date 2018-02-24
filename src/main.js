@@ -1,53 +1,56 @@
-const speed = 0.9;
-const meter_length = 12;
-const curbs = 2;
-const road_size = 18;
-const max_walking_distance = (road_size/2) - 2;
-const max_distance = 100;
-const rocks = 40;
-const grounds = 8;
-const change_each = 10;
-const step_size = 0.1;
-const obstacles = 10;
-const obstacle_types = 6;
-const immortality_threshold = 2000;
+const GAME = {
+	distance: 0,
+	scene: null,
+	isUp: 1,
+	ticks: 0,
+	lights: null,
+	camera: null,
+	UI: null
+};
 
-let distance = 0;
-let scene;
-let isUp = 1;
-let ticks = 0;
-let lights;
-let camera;
-let UI;
+const CONFIG = {
+	speed: 0.9,
+	meter_length: 12,
+	curbs: 2,
+	road_size: 18,
+	max_distance: 100,
+	rocks: 40,
+	grounds: 8,
+	change_each: 10,
+	step_size: 0.1,
+	obstacles: 10,
+	obstacle_types: 6,
+	immortality_threshold: 2000,
+	movable_components: [
+		'calculate-distance',
+		'move-obstacle',
+		'move-rock',
+		'move-ground',
+		'listener'
+	],
+	animated_obstacles: [
+		4, 5, 6
+	]
+};
+CONFIG.max_walking_distance = (CONFIG.road_size/2) - 2;
+
 
 function reset() {
-	distance = 0;
-	scene = null;
-	isUp = 1;
-	ticks = 0;
-	lights = null;
-	camera = null;
-	UI = null;
+	GAME.distance = 0;
+	GAME.scene = null;
+	GAME.isUp = 1;
+	GAME.ticks = 0;
+	GAME.lights = null;
+	GAME.camera = null;
+	GAME.UI = null;
 }
-
-const movable_components = [
-	'calculate-distance',
-	'move-obstacle',
-	'move-rock',
-	'move-ground',
-	'listener'
-];
-
-const animated_obstacles = [
-	4, 5, 6
-];
 
 function add_obstacle(zPos, element) {
 	const el = element || document.createElement('a-entity');
-	const obstacle_index = (1 + ~~(Math.random() * obstacle_types));
-	const is_animated = animated_obstacles.includes(obstacle_index);
+	const obstacle_index = (1 + ~~(Math.random() * CONFIG.obstacle_types));
+	const is_animated = CONFIG.animated_obstacles.includes(obstacle_index);
 	let loader;
-	el.setAttribute('position', `${road_size/2 - ~~(Math.random() * road_size)} -0.5 ${zPos}`);
+	el.setAttribute('position', `${CONFIG.road_size/2 - ~~(Math.random() * CONFIG.road_size)} -0.5 ${zPos}`);
 	el.setAttribute('animation-mixer', '');
 
 	if (!is_animated) {
@@ -62,7 +65,7 @@ function add_obstacle(zPos, element) {
 	if (!element) {
 		el.classList.add('obstacle');
 		el.setAttribute('move-obstacle', '');
-		scene.appendChild(el);
+		GAME.scene.appendChild(el);
 	}
 }
 
@@ -72,15 +75,15 @@ function add_rock(isLeft, zPos, element) {
 	const position_modifier = 1 - Math.random()*2;
 	const multiplier = isLeft ? -1 : 1;
 
-	el.setAttribute('position', `${(road_size/2 + position_modifier) * multiplier} 0 ${zPos}`);
+	el.setAttribute('position', `${(CONFIG.road_size/2 + position_modifier) * multiplier} 0 ${zPos}`);
 	el.setAttribute('scale', `${scale} ${scale} ${scale}`);
 	el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
-	el.setAttribute('collada-model', '#curb' + (1 + ~~(Math.random() * curbs)));
+	el.setAttribute('collada-model', '#curb' + (1 + ~~(Math.random() * CONFIG.curbs)));
 
 	window.el = el;
 	if (!element) {
 		el.setAttribute('move-rock', '');
-		scene.appendChild(el);
+		GAME.scene.appendChild(el);
 	}
 }
 
@@ -91,57 +94,47 @@ function add_ground(zPos) {
 	el.setAttribute('rotation', `0 90 0`);
 	el.setAttribute('collada-model', '#ground');
 	el.setAttribute('move-ground', '');
-	scene.appendChild(el);
+	GAME.scene.appendChild(el);
 }
-
-AFRAME.registerComponent('step-shake', {
-	tick() {
-		ticks++;
-		if (ticks%change_each === 0) {
-			this.el.object3D.position.y += step_size * isUp;
-			isUp *= -1;
-		}
-	}
-});
 
 AFRAME.registerComponent('calculate-distance', {
 	tick() {
-		if(!UI) {
+		if(!GAME.UI) {
 			return;
 		}
 
-		distance += speed
-		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
+		GAME.distance += CONFIG.speed
+		GAME.UI.children[0].setAttribute('value', Math.round(GAME.distance/CONFIG.meter_length) + 'M');
 	}
 });
 
 AFRAME.registerComponent('move-rock', {
 	tick() {
 		const position_modifier = 1 - Math.random()*2;
-		if (this.el.object3D.position.z > max_distance) {
-			add_rock(Math.random() > 0.5, - max_distance, this.el);
+		if (this.el.object3D.position.z > CONFIG.max_distance) {
+			add_rock(Math.random() > 0.5, - CONFIG.max_distance, this.el);
 		}
-		this.el.object3D.position.z += speed;
+		this.el.object3D.position.z += CONFIG.speed;
 	}
 });
 
 AFRAME.registerComponent('move-ground', {
 	tick() {
-		if (this.el.object3D.position.z > max_distance) {
-			this.el.object3D.position.z = -max_distance;
+		if (this.el.object3D.position.z > CONFIG.max_distance) {
+			this.el.object3D.position.z = -CONFIG.max_distance;
 			this.el.setAttribute('rotation', `0 ${~~(Math.random()*360)} 0`);
 		}
-		this.el.object3D.position.z += speed;
+		this.el.object3D.position.z += CONFIG.speed;
 	}
 });
 
 AFRAME.registerComponent('move-obstacle', {
 	tick() {
-		if (this.el.object3D.position.z > max_distance) {
-			this.el.object3D.position.z = -max_distance;
-			add_obstacle(-max_distance, this.el);
+		if (this.el.object3D.position.z > CONFIG.max_distance) {
+			this.el.object3D.position.z = -CONFIG.max_distance;
+			add_obstacle(-CONFIG.max_distance, this.el);
 		}
-		this.el.object3D.position.z += speed;
+		this.el.object3D.position.z += CONFIG.speed;
 	}
 });
 
@@ -154,7 +147,7 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
-		if (!UI) {
+		if (!GAME.UI || !GAME.camera) {
 			return;
 		}
 		const dead_point = Math.PI/24;
@@ -164,23 +157,23 @@ AFRAME.registerComponent("listener", {
 			Math.abs(camera.rotation.y) > dead_point
 			&&
 			(
-				(modifier > 0 && this.el.object3D.position.x < max_walking_distance) ||
-				(modifier < 0 && this.el.object3D.position.x > -max_walking_distance)
+				(modifier > 0 && this.el.object3D.position.x < CONFIG.max_walking_distance) ||
+				(modifier < 0 && this.el.object3D.position.x > -CONFIG.max_walking_distance)
 			)
 		) {
 			this.el.object3D.position.x += 0.2 * modifier;
-			UI.object3D.position.x += 0.2 * modifier;
+			GAME.UI.object3D.position.x += 0.2 * modifier;
 		}
 	}
 });
 
 function stop_game() {
 	Array.from(
-		document.querySelectorAll(movable_components.map((component) => {
+		document.querySelectorAll(CONFIG.movable_components.map((component) => {
 			return `[${component}]`
 		}).join(', '))
 	).forEach((element) => {
-		movable_components.forEach((component) => {
+		CONFIG.movable_components.forEach((component) => {
 			element.removeAttribute(component);
 		});
 	});
@@ -188,30 +181,29 @@ function stop_game() {
 
 function init_main() {
 	reset();
-	scene = document.querySelector('#game_scene');
-	UI = document.querySelector('#UI');
-	camera = document.querySelector('#camera_entity');
-	const step = (max_distance * 2) / rocks;
-	for (let i = 0; i < rocks; i++) {
-		add_rock(Math.random() > 0.5, i * step - max_distance);
+	GAME.scene = document.querySelector('#game_scene');
+	GAME.UI = document.querySelector('#UI');
+	GAME.camera = document.querySelector('#camera_entity');
+	const step = (CONFIG.max_distance * 2) / CONFIG.rocks;
+	for (let i = 0; i < CONFIG.rocks; i++) {
+		add_rock(Math.random() > 0.5, i * step - CONFIG.max_distance);
 	}
 
-	const ground_step = (max_distance * 2) / grounds;
-	for (let i = 0; i < grounds; i++) {
-		add_ground(i * ground_step - max_distance);
+	const ground_step = (CONFIG.max_distance * 2) / CONFIG.grounds;
+	for (let i = 0; i < CONFIG.grounds; i++) {
+		add_ground(i * ground_step - CONFIG.max_distance);
 	}
 
-	const obstacle_step = (max_distance * 2) / obstacles;
-	for (let i = 0; i < obstacles; i++) {
-		add_obstacle(i * obstacle_step - max_distance);
+	const obstacle_step = (CONFIG.max_distance * 2) / CONFIG.obstacles;
+	for (let i = 0; i < CONFIG.obstacles; i++) {
+		add_obstacle(i * obstacle_step - CONFIG.max_distance);
 	}
 
-	document.querySelector('#camera_entity').setAttribute('aabb-collider', 'objects: .obstacle');
+	GAME.camera.setAttribute('aabb-collider', 'objects: .obstacle');
+
 	setTimeout(() => {
-		camera.addEventListener('hit', (e) => {
-			stop_game();
-		});
-	}, immortality_threshold);
+		GAME.camera.addEventListener('hit', stop_game);
+	}, CONFIG.immortality_threshold);
 
 }
 
