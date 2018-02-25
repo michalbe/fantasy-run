@@ -8,8 +8,9 @@ const rocks = 40;
 const grounds = 8;
 const change_each = 10;
 const step_size = 0.1;
-const obstacles = 10;
+const obstacles = 1;
 const obstacle_types = 6;
+const immortality_threshold = 4000;
 
 let distance = 0;
 let scene;
@@ -18,7 +19,16 @@ let ticks = 0;
 let lights;
 let camera;
 let UI;
-let immortality_threshold = 4000;
+
+function reset() {
+	distance = 0;
+	scene = null;
+	isUp = 1;
+	ticks = 0;
+	lights = null;
+	camera = null;
+	UI = null;
+}
 
 const movable_components = [
 	'calculate-distance',
@@ -96,6 +106,10 @@ AFRAME.registerComponent('step-shake', {
 
 AFRAME.registerComponent('calculate-distance', {
 	tick() {
+		if(!UI) {
+			return;
+		}
+
 		distance += speed
 		UI.children[0].setAttribute('value', Math.round(distance/meter_length) + 'M');
 	}
@@ -140,6 +154,9 @@ AFRAME.registerComponent("listener", {
 		}
 	},
 	tick : function() {
+		if (!UI) {
+			return;
+		}
 		const dead_point = Math.PI/24;
 		const camera = this.el.children[0].object3D;
 		const modifier = camera.rotation.y > 0 ? -1 : 1;
@@ -169,8 +186,9 @@ function stop_game() {
 	});
 }
 
-function init() {
-	scene = document.querySelector('#scene1');
+function init_main() {
+	reset();
+	scene = document.querySelector('#game_scene');
 	UI = document.querySelector('#UI');
 	camera = document.querySelector('#camera_entity');
 	const step = (max_distance * 2) / rocks;
@@ -188,10 +206,36 @@ function init() {
 		add_obstacle(i * obstacle_step - max_distance);
 	}
 
+	document.querySelector('#camera_entity').setAttribute('aabb-collider', 'objects: .obstacle');
 	setTimeout(() => {
 		camera.addEventListener('hit', (e) => {
 			stop_game();
 		});
 	}, immortality_threshold);
 
+}
+
+function go_to_github() {
+	window.open('http://github.com/michalbe');
+}
+
+function intro_init() {
+	document.querySelector('#intro-camera').setAttribute('camera', 'active: true');
+	document.querySelector('#game-camera').setAttribute('camera', 'active: false');
+
+	const points_element = document.querySelector('#points');
+	const points = window.localStorage.getItem('points') || 0;
+	points_element.setAttribute('value', `Best: ${points}m`);
+}
+
+function start_game() {
+	if (document.querySelector('#game_scene').setAttribute('visible') === 'true') {
+		return;
+	}
+
+	document.querySelector('#intro-camera').setAttribute('camera', 'active: false');
+	document.querySelector('#game-camera').setAttribute('camera', 'active: true');
+	document.querySelector('#intro').setAttribute('visible', 'false');
+	document.querySelector('#game_scene').setAttribute('visible', 'true');
+	init_main();
 }
