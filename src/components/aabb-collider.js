@@ -28,7 +28,7 @@ AFRAME.registerComponent('aabb-collider', {
   update: function () {
     var data = this.data;
     var objectEls;
-
+    
     // Push entities into list of els to intersect.
     if (data.objects) {
       objectEls = this.el.sceneEl.querySelectorAll(data.objects);
