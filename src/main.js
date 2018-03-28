@@ -5,7 +5,9 @@ const GAME = {
 	ticks: 0,
 	lights: null,
 	camera: null,
-	UI: null
+	UI: null,
+	running: false,
+	timeout: 0
 };
 
 const CONFIG = {
@@ -32,6 +34,7 @@ const CONFIG = {
 		4, 5, 6
 	]
 };
+
 CONFIG.max_walking_distance = (CONFIG.road_size/2) - 2;
 
 
@@ -40,9 +43,11 @@ function reset() {
 	GAME.scene = null;
 	GAME.isUp = 1;
 	GAME.ticks = 0;
+	GAME.timeout = 0;
 	GAME.lights = null;
 	GAME.camera = null;
 	GAME.UI = null;
+	GAME.running = false;
 }
 
 function add_obstacle(zPos, element) {
@@ -64,6 +69,7 @@ function add_obstacle(zPos, element) {
 	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
 	if (!element) {
 		el.classList.add('obstacle');
+		el.classList.add('gameobj');
 		el.setAttribute('move-obstacle', '');
 		GAME.scene.appendChild(el);
 	}
@@ -82,6 +88,7 @@ function add_rock(isLeft, zPos, element) {
 
 	window.el = el;
 	if (!element) {
+		el.classList.add('gameobj');
 		el.setAttribute('move-rock', '');
 		GAME.scene.appendChild(el);
 	}
@@ -94,6 +101,7 @@ function add_ground(zPos) {
 	el.setAttribute('rotation', `0 90 0`);
 	el.setAttribute('collada-model', '#ground');
 	el.setAttribute('move-ground', '');
+	el.classList.add('gameobj');
 	GAME.scene.appendChild(el);
 }
 
@@ -177,9 +185,18 @@ function stop_game() {
 			element.removeAttribute(component);
 		});
 	});
+
+	document.querySelector('#scene-renderer').style.opacity = 0;
+	setTimeout(intro_init, 2000);
+	setTimeout(() => {
+		document.querySelector('#scene-renderer').style.opacity = 1;
+	}, 3000);
+	GAME.camera.removeEventListener('hit', stop_game);
 }
 
 function init_main() {
+	console.log('MAIN');
+	
 	reset();
 	GAME.scene = document.querySelector('#game_scene');
 	GAME.UI = document.querySelector('#UI');
@@ -199,6 +216,8 @@ function init_main() {
 		add_obstacle(i * obstacle_step - CONFIG.max_distance);
 	}
 
+	// Force call `update` on `aabb` component on each game start
+	GAME.camera.setAttribute('aabb-collider', 'objects: .dummy-class');
 	GAME.camera.setAttribute('aabb-collider', 'objects: .obstacle');
 
 	setTimeout(() => {
@@ -212,8 +231,16 @@ function go_to_github() {
 }
 
 function intro_init() {
+	Array.from(
+		document.querySelectorAll('.gameobj')
+	).forEach((game_object) => {
+		game_object.parentNode.removeChild(game_object);
+	});
+
 	document.querySelector('#intro-camera').setAttribute('camera', 'active: true');
 	document.querySelector('#game-camera').setAttribute('camera', 'active: false');
+	document.querySelector('#intro').setAttribute('visible', 'true');
+	document.querySelector('#game_scene').setAttribute('visible', 'false');
 
 	const points_element = document.querySelector('#points');
 	const points = window.localStorage.getItem('points') || 0;
