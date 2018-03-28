@@ -9,6 +9,11 @@
 		<script src="node_modules/aframe-gui/dist/aframe-gui.js"></script>
 		<script src="src/components/aabb-collider.js"></script>
 		<script src="src/main.js"></script>
+		<style> 
+			#scene-renderer {
+				transition: opacity 2s;
+			}
+		</style>
 	</head>
 	<body>
 		<a-scene id="scene-renderer" light="defaultLightsEnabled: false" fog="type: exponential; color: #000">
