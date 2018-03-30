@@ -220,6 +220,10 @@ function init_main() {
 	GAME.camera.setAttribute('aabb-collider', 'objects: .dummy-class');
 	GAME.camera.setAttribute('aabb-collider', 'objects: .obstacle');
 
+	document.querySelector('#camera_wrapper_game').object3D.position.x = 0;
+	document.querySelector('#camera_wrapper_game').setAttribute('listener', 'stepFactor:1');
+	GAME.UI.object3D.position.x = -3;
+
 	setTimeout(() => {
 		GAME.camera.addEventListener('hit', stop_game);
 	}, CONFIG.immortality_threshold);
