@@ -186,6 +186,10 @@ function stop_game() {
 		});
 	});
 
+	window.localStorage.setItem('points', Math.max(
+		Math.round(GAME.distance / CONFIG.meter_length),
+		parseInt(window.localStorage.getItem('points'), 10)
+	));
 	document.querySelector('#scene-renderer').style.opacity = 0;
 	setTimeout(intro_init, 2000);
 	setTimeout(() => {
@@ -222,6 +226,7 @@ function init_main() {
 
 	document.querySelector('#camera_wrapper_game').object3D.position.x = 0;
 	document.querySelector('#camera_wrapper_game').setAttribute('listener', 'stepFactor:1');
+	document.querySelector('#points-label').setAttribute('calculate-distance', '');
 	GAME.UI.object3D.position.x = -3;
 
 	setTimeout(() => {
