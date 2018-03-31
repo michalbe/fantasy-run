@@ -1,15 +1,13 @@
+// Those are game properties that reset on each run...
 const GAME = {
 	distance: 0,
 	scene: null,
-	isUp: 1,
-	ticks: 0,
 	lights: null,
 	camera: null,
-	UI: null,
-	running: false,
-	timeout: 0
+	UI: null
 };
 
+// And those aren't
 const CONFIG = {
 	speed: 0.9,
 	meter_length: 12,
@@ -18,7 +16,6 @@ const CONFIG = {
 	max_distance: 100,
 	rocks: 40,
 	grounds: 8,
-	change_each: 10,
 	step_size: 0.1,
 	obstacles: 10,
 	obstacle_types: 6,
@@ -28,7 +25,7 @@ const CONFIG = {
 		'move-obstacle',
 		'move-rock',
 		'move-ground',
-		'listener'
+		'sidestep-moves'
 	],
 	obstacles_with_sound: [
 		4, 5, 6
@@ -44,13 +41,9 @@ CONFIG.max_walking_distance = (CONFIG.road_size/2) - 2;
 function reset() {
 	GAME.distance = 0;
 	GAME.scene = null;
-	GAME.isUp = 1;
-	GAME.ticks = 0;
-	GAME.timeout = 0;
 	GAME.lights = null;
 	GAME.camera = null;
 	GAME.UI = null;
-	GAME.running = false;
 }
 
 function add_obstacle(zPos, element) {
@@ -72,7 +65,7 @@ function add_obstacle(zPos, element) {
 	}
 
 	if (has_sound) {
-		el.setAttribute('sound', `src: url(assets/${obstacle_index}.wav); autoplay: true; volume: 2`);
+		el.setAttribute('sound', `src: url(assets/${obstacle_index}.wav); autoplay: true; volume: 2; loop: true;`);
 	} else {
 		el.removeAttribute('sound');
 	}
@@ -157,7 +150,7 @@ AFRAME.registerComponent('move-obstacle', {
 	}
 });
 
-AFRAME.registerComponent("listener", {
+AFRAME.registerComponent("sidestep-moves", {
 	schema :
 	{
 		stepFactor : {
@@ -239,7 +232,7 @@ function init_main() {
 	GAME.camera.setAttribute('aabb-collider', 'objects: .obstacle');
 
 	document.querySelector('#camera_wrapper_game').object3D.position.x = 0;
-	document.querySelector('#camera_wrapper_game').setAttribute('listener', 'stepFactor:1');
+	document.querySelector('#camera_wrapper_game').setAttribute('sidestep-moves', 'stepFactor:1');
 	document.querySelector('#points-label').setAttribute('calculate-distance', '');
 	GAME.UI.object3D.position.x = -3;
 
