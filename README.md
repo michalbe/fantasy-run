@@ -1,6 +1,6 @@
 # Fantasy Run
 
-Endless runner. In a fantasy world.
+Endless runner. In a fantasy world. [PLAY](https://michalbe.github.io/fantasy-downhill/)
 
 Built with [A-Frame](https://aframe.io) for [Mozilla's WebVR Medieval Fantasy Chellange](https://challenges.mozilla.community/webvr-challenge/).
 
@@ -26,3 +26,7 @@ I used brilliant [`The Beast is out!` model set](https://sketchfab.com/models/8a
 Sounds source:
  - https://www.freesoundeffects.com/searches/yell/1/20/
  - https://opengameart.org/content/heroes-theme
+
+
+## PLAY?
+Play: [PLAY](https://michalbe.github.io/fantasy-downhill/).
