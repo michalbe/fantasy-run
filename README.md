@@ -1,6 +1,6 @@
 # Fantasy Run
 
-Endless runner. In a fantasy world. [PLAY](https://michalbe.github.io/fantasy-downhill/)
+Endless runner. In a fantasy world. [PLAY](https://michalbe.github.io/fantasy-run/)
 
 Built with [A-Frame](https://aframe.io) for [Mozilla's WebVR Medieval Fantasy Chellange](https://challenges.mozilla.community/webvr-challenge/).
 
@@ -32,4 +32,4 @@ Sounds source:
 
 
 ## PLAY?
-Play: [PLAY](https://michalbe.github.io/fantasy-downhill/).
+Play: [PLAY](https://michalbe.github.io/fantasy-run/).
