@@ -72,7 +72,7 @@ function add_obstacle(zPos, element) {
 	}
 
 	if (has_sound) {
-		el.setAttribute('sound', `src: url(assets/${obstacle_index}.wav); autoplay: true`);
+		el.setAttribute('sound', `src: url(assets/${obstacle_index}.wav); autoplay: true; volume: 2`);
 	} else {
 		el.removeAttribute('sound');
 	}
@@ -187,6 +187,8 @@ AFRAME.registerComponent("listener", {
 });
 
 function stop_game() {
+	document.querySelector('#music').setAttribute('volume', '0');
+
 	Array.from(
 		document.querySelectorAll(CONFIG.movable_components.map((component) => {
 			return `[${component}]`
@@ -204,6 +206,7 @@ function stop_game() {
 	document.querySelector('#scene-renderer').style.opacity = 0;
 	setTimeout(intro_init, 2000);
 	setTimeout(() => {
+		document.querySelector('#music').setAttribute('volume', '0.3');
 		document.querySelector('#scene-renderer').style.opacity = 1;
 	}, 3000);
 	GAME.camera.removeEventListener('hit', stop_game);
