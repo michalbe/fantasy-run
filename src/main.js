@@ -30,6 +30,9 @@ const CONFIG = {
 		'move-ground',
 		'listener'
 	],
+	obstacles_with_sound: [
+		4, 5, 6
+	],
 	animated_obstacles: [
 		4, 5, 6
 	]
@@ -54,6 +57,8 @@ function add_obstacle(zPos, element) {
 	const el = element || document.createElement('a-entity');
 	const obstacle_index = (1 + ~~(Math.random() * CONFIG.obstacle_types));
 	const is_animated = CONFIG.animated_obstacles.includes(obstacle_index);
+	const has_sound = CONFIG.obstacles_with_sound.includes(obstacle_index);
+
 	let loader;
 	el.setAttribute('position', `${CONFIG.road_size/2 - ~~(Math.random() * CONFIG.road_size)} -0.5 ${zPos}`);
 	el.setAttribute('animation-mixer', '');
@@ -64,6 +69,12 @@ function add_obstacle(zPos, element) {
 	} else {
 		loader = 'gltf';
 		el.setAttribute('rotation', `0 ${45 - ~~(Math.random()*90)} 0`);
+	}
+
+	if (has_sound) {
+		el.setAttribute('sound', `src: url(assets/${obstacle_index}.wav); autoplay: true`);
+	} else {
+		el.removeAttribute('sound');
 	}
 
 	el.setAttribute(`${loader}-model`, '#obstacle' + obstacle_index);
