@@ -6,6 +6,9 @@ Built with [A-Frame](https://aframe.io) for [Mozilla's WebVR Medieval Fantasy Ch
 
 ![Screen](assets/screen.png)
 
+## History
+Night is dark and full of terrors. You need to deliver ultra-secret message to the commander of the King's guard, before it will be too late. Like you ancestors after the battle of Marathon, you need to do your best and run. Your people depend on you.
+
 ## Setup
 ```sh
 npm install
