@@ -194,7 +194,7 @@ function stop_game() {
 
 	window.localStorage.setItem('points', Math.max(
 		Math.round(GAME.distance / CONFIG.meter_length),
-		parseInt(window.localStorage.getItem('points'), 10)
+		parseInt(window.localStorage.getItem('points'), 10) || 0
 	));
 	document.querySelector('#scene-renderer').style.opacity = 0;
 	setTimeout(intro_init, 2000);
